@@ -11,6 +11,7 @@ import signupRoute from "./routes/signupRoute.js";
 import loginRoute from "./routes/loginRoute.js";
 import refreshTokenRoute from "./routes/refreshTokenRoute.js";
 import logoutRoute from "./routes/logoutRoute.js";
+import apiRoute from "./routes/apiRoute.js";
 import verifyUser from "./middlewares/verifyUser.js";
 
 const __PORT = process.env.PORT;
@@ -37,6 +38,7 @@ app.use(signupRoute);
 app.use(loginRoute);
 app.use(refreshTokenRoute);
 app.use(logoutRoute);
+app.use("/api", apiRoute);
 
 // Access token verification middleware
 app.use(verifyUser);
