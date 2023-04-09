@@ -11,10 +11,9 @@ import signupRoute from "./routes/signupRoute.js";
 import loginRoute from "./routes/loginRoute.js";
 import refreshTokenRoute from "./routes/refreshTokenRoute.js";
 import logoutRoute from "./routes/logoutRoute.js";
-import quotesRoute from "./routes/quotesRoute.js";
 import verifyUser from "./middlewares/verifyUser.js";
 
-const __PORT = process.env.PORT || 5000;
+const __PORT = process.env.PORT;
 const app = express();
 
 // Database
@@ -39,11 +38,10 @@ app.use(loginRoute);
 app.use(refreshTokenRoute);
 app.use(logoutRoute);
 
-// Access token verification
+// Access token verification middleware
 app.use(verifyUser);
 
-// Protected Routes
-app.use(quotesRoute);
+// Protected Routes ( No Protected Routes )
 
 mongoose.connection.once("open", () => {
 	app.listen(__PORT, () => {
