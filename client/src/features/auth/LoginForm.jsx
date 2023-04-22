@@ -116,7 +116,7 @@ export default function LoginForm({ className }) {
 					<div className="px-8 py-2">
 						<label htmlFor="password" className="flex flex-col">
 							<span className="text-lg">Password</span>
-							{formErrors.email && <p className="text-red-500 text-sm">{formErrors.password}</p>}
+							{formErrors.password && <p className="text-red-500 text-sm">{formErrors.password}</p>}
 							<input
 								type="password"
 								id="password"
