@@ -29,7 +29,7 @@ describe("Login form", () => {
 		expect(window.location.pathname).toBe("/signup");
 	});
 
-	it("should render correct error on no email input", async () => {
+	it("should render correct error on no username input", async () => {
 		const user = userEvent.setup();
 		render(<LoginForm />);
 		const submitBtn = screen.getByRole("button", {
@@ -40,37 +40,21 @@ describe("Login form", () => {
 			await user.click(submitBtn);
 		});
 
-		const errorEle = screen.getByText(/Please enter an email/i);
+		const errorEle = screen.getByText(/Please enter a username/i);
 		expect(errorEle).toBeInTheDocument();
 	});
 
-	it("should render correct error on invalid email input", async () => {
+	it("should render correct error on incorrect username length", async () => {
 		const user = userEvent.setup();
 		render(<LoginForm />);
-		const emailInput = screen.getByLabelText(/email/i);
+		const usernameInput = screen.getByLabelText(/username/i);
 
 		await act(async () => {
-			await user.type(emailInput, "test{enter}");
+			await user.type(usernameInput, "abcde{enter}");
 		});
 
-		const errorEle = screen.getByText(/Please enter a valid email/i);
+		const errorEle = screen.getByText(/Username must have 6 to 18 characters/i);
 		expect(errorEle).toBeInTheDocument();
-	});
-
-	it("should not render error block on correct email pattern", async () => {
-		const user = userEvent.setup();
-		render(<LoginForm />);
-		const emailInput = screen.getByLabelText(/email/i);
-
-		await act(async () => {
-			await user.type(emailInput, "test@test.com{enter}");
-		});
-
-		const errorEleOne = screen.queryByText(/Please enter a valid email/i);
-		const errorEleTwo = screen.queryByText(/Please enter an email/i);
-
-		expect(errorEleOne).toBe(null);
-		expect(errorEleTwo).toBe(null);
 	});
 
 	it("should render correct error on no password input", async () => {
@@ -122,33 +106,33 @@ describe("Login form", () => {
 		const user = userEvent.setup();
 		render(<LoginForm />);
 
-		const email = screen.getByLabelText(/email/i);
+		const usernameInput = screen.getByLabelText(/username/i);
 		await act(async () => {
-			await user.type(email, "test{enter}");
+			await user.type(usernameInput, "test{enter}");
 		});
 
-		let emailBeforeCorrectInput = screen.getByText(/please enter a valid email/i);
-		expect(emailBeforeCorrectInput).toBeInTheDocument();
+		let usernameBeforeCorrectInput = screen.getByText(/Username must have 6 to 18 characters/i);
+		expect(usernameBeforeCorrectInput).toBeInTheDocument();
 
 		await act(async () => {
-			await user.type(email, "test");
+			await user.type(usernameInput, "test");
 		});
 
-		let emailAfterCorrectInput = screen.queryByText(/please enter a valid email/i);
-		expect(emailAfterCorrectInput).toBe(null);
+		let usernameAfterCorrectInput = screen.queryByText(/Username must have 6 to 18 characters/i);
+		expect(usernameAfterCorrectInput).toBe(null);
 	});
 
-	it("should pop error for no password when submitted form with correct email", async () => {
+	it("should pop error for no password when submitted form with correct username", async () => {
 		const user = userEvent.setup();
 		render(<LoginForm />);
 
-		const email = screen.getByLabelText(/email/i);
+		const username = screen.getByLabelText(/username/i);
 
 		await act(async () => {
-			await user.type(email, "test@test.com{enter}");
+			await user.type(username, "username{enter}");
 		});
 
-		let errorMessage = screen.getByText(/please enter a password/i);
+		let errorMessage = screen.getByText(/Please enter a password/i);
 		expect(errorMessage).toBeInTheDocument();
 	});
 });

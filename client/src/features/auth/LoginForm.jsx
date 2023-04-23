@@ -4,28 +4,28 @@ import useFormState from "../../hooks/useFormState";
 import formValidations from "./formValidations";
 
 export default function LoginForm({ className }) {
-	const { emailValidation, passwordValidation, getSigninErrorMessage } = formValidations();
+	const { usernameValidation, passwordValidation, getSigninErrorMessage } = formValidations();
 
 	const { useInput, getFormState, isValidForm } = useFormState();
-	const { ref: emailRef, inFocus: setEmailInFocus } = useInput("email", emailValidation);
+	const { ref: usernameRef, inFocus: setUsernameInFocus } = useInput("username", usernameValidation);
 	const { ref: passwordRef, inFocus: setPasswordInFocus } = useInput("password", passwordValidation);
 
 	const [formErrors, setFormErrors] = useState({
-		email: "",
+		username: "",
 		password: "",
 	});
 
 	useEffect(() => {
-		setEmailInFocus();
-	}, [setEmailInFocus]);
+		setUsernameInFocus();
+	}, [setUsernameInFocus]);
 
 	function submitHandler(e) {
 		e.preventDefault();
 		const formState = getFormState();
 
 		if (!isValidForm()) {
-			if (formState.email.validation.error) {
-				setEmailInFocus();
+			if (formState.username.validation.error) {
+				setUsernameInFocus();
 				setErrors(formState);
 				return;
 			}
@@ -46,9 +46,9 @@ export default function LoginForm({ className }) {
 			...formErrors,
 		};
 
-		if (formState.email.validation.error) {
-			const errorMessage = getSigninErrorMessage("email", formState.email.validation.failed);
-			errors.email = errorMessage;
+		if (formState.username.validation.error) {
+			const errorMessage = getSigninErrorMessage("username", formState.username.validation.failed);
+			errors.username = errorMessage;
 		}
 
 		if (formState.password.validation.error) {
@@ -59,16 +59,16 @@ export default function LoginForm({ className }) {
 		setFormErrors(errors);
 	}
 
-	function onEmailChangeHandler() {
-		if (formErrors?.email?.length > 0) {
-			setFormErrors({ ...formErrors, email: "" });
+	function onUsernameChangeHandler() {
+		if (formErrors?.username?.length > 0) {
+			setFormErrors({ ...formErrors, username: "" });
 		}
 	}
 
-	function onEmailBlurHandler() {
+	function onUsernameBlurHandler() {
 		const formState = getFormState();
-		const errorMessage = getSigninErrorMessage("email", formState.email.validation.failed);
-		setFormErrors({ ...formErrors, email: errorMessage });
+		const errorMessage = getSigninErrorMessage("username", formState.username.validation.failed);
+		setFormErrors({ ...formErrors, username: errorMessage });
 	}
 
 	function onPasswordChangeHandler() {
@@ -92,19 +92,19 @@ export default function LoginForm({ className }) {
 			<div>
 				<form className="my-8" onSubmit={submitHandler}>
 					<div className="px-8 py-2">
-						<label htmlFor="email" className="flex flex-col">
-							<span className="text-lg">Email</span>
-							{formErrors.email && <p className="text-red-500 text-sm">{formErrors.email}</p>}
+						<label htmlFor="username" className="flex flex-col">
+							<span className="text-lg">Username</span>
+							{formErrors.username && <p className="text-red-500 text-sm">{formErrors.username}</p>}
 
 							<input
 								type="text"
-								id="email"
+								id="username"
 								className={`border-2 rounded-lg h-10 outline-none px-4 tracking-wider ${
-									formErrors.email ? "border-red-200" : ""
+									formErrors.username ? "border-red-200" : ""
 								}`}
-								ref={emailRef}
-								onChange={onEmailChangeHandler}
-								onBlur={onEmailBlurHandler}
+								ref={usernameRef}
+								onChange={onUsernameChangeHandler}
+								onBlur={onUsernameBlurHandler}
 							/>
 						</label>
 					</div>
