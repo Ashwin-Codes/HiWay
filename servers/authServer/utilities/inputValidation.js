@@ -1,7 +1,7 @@
 import passwordValidator from "password-validator";
 
 const validationRegex = {
-	username: /^[^\W_](?!.*?[._]{2})[\w.]{6,18}[^\W_]$/,
+	username: /^.{6,18}$/,
 	email: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
 };
 
