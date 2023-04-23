@@ -137,4 +137,18 @@ describe("Login form", () => {
 		let emailAfterCorrectInput = screen.queryByText(/please enter a valid email/i);
 		expect(emailAfterCorrectInput).toBe(null);
 	});
+
+	it("should pop error for no password when submitted form with correct email", async () => {
+		const user = userEvent.setup();
+		render(<LoginForm />);
+
+		const email = screen.getByLabelText(/email/i);
+
+		await act(async () => {
+			await user.type(email, "test@test.com{enter}");
+		});
+
+		let errorMessage = screen.getByText(/please enter a password/i);
+		expect(errorMessage).toBeInTheDocument();
+	});
 });

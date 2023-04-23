@@ -24,14 +24,15 @@ export default function LoginForm({ className }) {
 		const formState = getFormState();
 
 		if (!isValidForm()) {
-			setErrors(formState);
 			if (formState.email.validation.error) {
 				setEmailInFocus();
+				setErrors(formState);
 				return;
 			}
 
 			if (formState.password.validation.error) {
 				setPasswordInFocus();
+				setErrors(formState);
 				return;
 			}
 			return;
@@ -40,25 +41,17 @@ export default function LoginForm({ className }) {
 		// Ready to send login request
 	}
 
-	function setErrors(formState, options = {}) {
-		let inputs = {};
-
-		Object.keys(formState).forEach((key) => {
-			inputs[key] = true;
-		});
-
-		inputs = { ...inputs, ...options };
-
+	function setErrors(formState) {
 		const errors = {
 			...formErrors,
 		};
 
-		if (inputs.email && formState.email.validation.error) {
+		if (formState.email.validation.error) {
 			const errorMessage = getSigninErrorMessage("email", formState.email.validation.failed);
 			errors.email = errorMessage;
 		}
 
-		if (inputs.password && formState.password.validation.error) {
+		if (formState.password.validation.error) {
 			const errorMessage = getSigninErrorMessage("password", formState.password.validation.failed);
 			errors.password = errorMessage;
 		}
@@ -74,7 +67,8 @@ export default function LoginForm({ className }) {
 
 	function onEmailBlurHandler() {
 		const formState = getFormState();
-		setErrors(formState, { password: false });
+		const errorMessage = getSigninErrorMessage("email", formState.email.validation.failed);
+		setFormErrors({ ...formErrors, email: errorMessage });
 	}
 
 	function onPasswordChangeHandler() {
@@ -85,7 +79,8 @@ export default function LoginForm({ className }) {
 
 	function onPasswordBlurHandler() {
 		const formState = getFormState();
-		setErrors(formState, false, { email: false });
+		const errorMessage = getSigninErrorMessage("password", formState.password.validation.failed);
+		setFormErrors({ ...formErrors, password: errorMessage });
 	}
 
 	return (
