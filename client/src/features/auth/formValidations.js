@@ -3,6 +3,10 @@ const signinErrorMessages = {
 		required: "Please enter an email",
 		validEmail: "Please enter a valid email",
 	},
+	username: {
+		required: "Please enter a username",
+		usernameLength: "Username must have 6 to 18 characters",
+	},
 	password: {
 		required: "Please enter a password",
 		passwordLength: "Password must be at least 6 characters",
@@ -22,10 +26,15 @@ export default function formValidations() {
 		},
 	};
 
+	const usernameValidation = {
+		required: (username) => !!username,
+		usernameLength: (username) => username.length >= 6 && username.length <= 18,
+	};
+
 	const passwordValidation = {
 		required: (password) => !!password,
 		passwordLength: (password) => (password?.length < 6 ? false : true),
 	};
 
-	return { emailValidation, passwordValidation, getSigninErrorMessage };
+	return { emailValidation, passwordValidation, usernameValidation, getSigninErrorMessage };
 }
