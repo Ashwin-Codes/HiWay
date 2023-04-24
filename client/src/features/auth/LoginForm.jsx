@@ -2,24 +2,38 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import useFormState from "../../hooks/useFormState";
 import formValidations from "./formValidations";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn, getAuth } from "./authSlice";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineLoading3Quarters as Loader } from "react-icons/ai";
 
 export default function LoginForm({ className }) {
 	const { usernameValidation, passwordValidation, getSigninErrorMessage } = formValidations();
-
 	const { useInput, getFormState, isValidForm } = useFormState();
 	const { ref: usernameRef, inFocus: setUsernameInFocus } = useInput("username", usernameValidation);
 	const { ref: passwordRef, inFocus: setPasswordInFocus } = useInput("password", passwordValidation);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const [formErrors, setFormErrors] = useState({
 		username: "",
 		password: "",
 	});
 
+	const [loading, setLoading] = useState(false);
+	const auth = useSelector(getAuth);
+
+	useEffect(() => {
+		if (auth.username && auth.accessToken) {
+			navigate("/");
+		}
+	}, [auth, navigate]);
+
 	useEffect(() => {
 		setUsernameInFocus();
 	}, [setUsernameInFocus]);
 
-	function submitHandler(e) {
+	async function submitHandler(e) {
 		e.preventDefault();
 		const formState = getFormState();
 
@@ -38,7 +52,17 @@ export default function LoginForm({ className }) {
 			return;
 		}
 
-		// Ready to send login request
+		const credentials = {
+			username: formState.username.value,
+			password: formState.password.value,
+		};
+
+		try {
+			setLoading(true);
+			await dispatch(signIn(credentials)).unwrap();
+		} catch (err) {
+			setLoading(false);
+		}
 	}
 
 	function setErrors(formState) {
@@ -125,8 +149,11 @@ export default function LoginForm({ className }) {
 						</label>
 					</div>
 					<div className="px-8 mt-4 h-10">
-						<button type="submit" className="w-full h-full bg-slate-blue-500 rounded-lg text-white">
-							Sign in
+						<button
+							disabled={loading ? true : false}
+							type="submit"
+							className="w-full h-full bg-slate-blue-500 rounded-lg text-white flex justify-center items-center">
+							{loading ? <Loader className="animate-spin text-xl" /> : "Sign in"}
 						</button>
 					</div>
 				</form>
