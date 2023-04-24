@@ -35,6 +35,7 @@ module.exports = {
 					900: "#010076",
 				},
 				cultured: "#F3F5F9",
+				auroMetal: "#6B8587",
 			},
 		},
 	},

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn, getAuth } from "./authSlice";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineLoading3Quarters as Loader } from "react-icons/ai";
+import showLoginErrorToast from "../../util/showLoginErrorToast";
 
 export default function LoginForm({ className }) {
 	const { usernameValidation, passwordValidation, getSigninErrorMessage } = formValidations();
@@ -61,6 +62,7 @@ export default function LoginForm({ className }) {
 			setLoading(true);
 			await dispatch(signIn(credentials)).unwrap();
 		} catch (err) {
+			showLoginErrorToast(err);
 			setLoading(false);
 		}
 	}
@@ -150,6 +152,9 @@ export default function LoginForm({ className }) {
 					</div>
 					<div className="px-8 mt-4 h-10">
 						<button
+							onClick={() => {
+								showLoginErrorToast().update("login-error");
+							}}
 							disabled={loading ? true : false}
 							type="submit"
 							className="w-full h-full bg-slate-blue-500 rounded-lg text-white flex justify-center items-center">
