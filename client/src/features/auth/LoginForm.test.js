@@ -135,4 +135,21 @@ describe("Login form", () => {
 		let errorMessage = screen.getByText(/Please enter a password/i);
 		expect(errorMessage).toBeInTheDocument();
 	});
+
+	it("should redirect to home on valid credentials", async () => {
+		process.env.NODE_ENV = "development";
+		const user = userEvent.setup();
+
+		render(<LoginForm />);
+
+		const username = screen.getByLabelText(/username/i);
+		const password = screen.getByLabelText(/password/i);
+
+		await act(async () => {
+			await user.type(username, "testuser");
+			await user.type(password, "testpassword{enter}");
+		});
+
+		expect(window.location.pathname).toBe("/");
+	});
 });

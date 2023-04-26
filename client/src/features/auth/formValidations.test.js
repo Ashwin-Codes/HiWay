@@ -1,7 +1,7 @@
 import formValidations from "./formValidations";
 
 describe("form validation logic", () => {
-	it("should return false on incorrect email input", async () => {
+	it("should return false on invalid email input", async () => {
 		const { emailValidation } = formValidations();
 
 		let requiredValidationEmptyString = emailValidation.required("");
@@ -11,7 +11,7 @@ describe("form validation logic", () => {
 		expect(validEmailValidation).toBe(false);
 	});
 
-	it("should return true on correct email input", async () => {
+	it("should return true on valid email input", async () => {
 		const { emailValidation } = formValidations();
 
 		let requiredValidation = emailValidation.required("test");
@@ -21,7 +21,27 @@ describe("form validation logic", () => {
 		expect(validEmailValidation).toBe(true);
 	});
 
-	it("should return false on incorrect password input", async () => {
+	it("should return false on invalid username input", async () => {
+		const { usernameValidation } = formValidations();
+
+		let requiredValidationEmptyString = usernameValidation.required("");
+		expect(requiredValidationEmptyString).toBe(false);
+
+		let usernameLengthValidation = usernameValidation.usernameLength("test");
+		expect(usernameLengthValidation).toBe(false);
+	});
+
+	it("should return true on valid username input", async () => {
+		const { usernameValidation } = formValidations();
+
+		let requiredValidationEmptyString = usernameValidation.required("test");
+		expect(requiredValidationEmptyString).toBe(true);
+
+		let usernameLengthValidation = usernameValidation.usernameLength("abcdef");
+		expect(usernameLengthValidation).toBe(true);
+	});
+
+	it("should return false on invalid password input", async () => {
 		const { passwordValidation } = formValidations();
 
 		let requiredValidationEmptyString = passwordValidation.required("");
@@ -31,7 +51,7 @@ describe("form validation logic", () => {
 		expect(passwordLengthValidation).toBe(false);
 	});
 
-	it("should return true on correct password input", async () => {
+	it("should return true on valid password input", async () => {
 		const { passwordValidation } = formValidations();
 
 		let requiredValidationEmptyString = passwordValidation.required("test");
@@ -41,11 +61,14 @@ describe("form validation logic", () => {
 		expect(passwordLengthValidation).toBe(true);
 	});
 
-	it("should return correct error message", async () => {
+	it("should return valid error message", async () => {
 		const { getSigninErrorMessage } = formValidations();
 
 		const emailErrorMessage = getSigninErrorMessage("email", "required");
 		expect(emailErrorMessage).toBe("Please enter an email");
+
+		const usernameErrorMessage = getSigninErrorMessage("username", "required");
+		expect(usernameErrorMessage).toBe("Please enter a username");
 
 		const passwordErrorMessage = getSigninErrorMessage("password", "required");
 		expect(passwordErrorMessage).toBe("Please enter a password");

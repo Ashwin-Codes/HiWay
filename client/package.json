@@ -47,5 +47,8 @@
 		"moduleNameMapper": {
 			"axios": "axios/dist/node/axios.cjs"
 		}
+	},
+	"devDependencies": {
+		"msw": "^1.2.1"
 	}
 }

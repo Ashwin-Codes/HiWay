@@ -1,6 +1,13 @@
 import { render, screen } from "../util/test-utils";
 import FormPageWrapper from "./FormPageWrapper";
 import illustration from "../assets/p2p-illustration.svg";
+import userEvent from "@testing-library/user-event";
+import LoginForm from "../features/auth/LoginForm";
+import { act } from "react-dom/test-utils";
+
+beforeEach(() => {
+	process.env.NODE_ENV = "test";
+});
 
 describe("Form page wrapper component", () => {
 	it("should render correctly", () => {
@@ -24,5 +31,29 @@ describe("Form page wrapper component", () => {
 		render(<FormPageWrapper />);
 		const imgElement = screen.getByRole("img");
 		expect(imgElement).toHaveAttribute("src", illustration);
+	});
+
+	describe("LoginForm toast", () => {
+		it("should toast error on invalid credentials", async () => {
+			process.env.NODE_ENV = "development";
+			const user = userEvent.setup();
+
+			render(
+				<FormPageWrapper>
+					<LoginForm />
+				</FormPageWrapper>
+			);
+
+			const username = screen.getByLabelText(/username/i);
+			const password = screen.getByLabelText(/password/i);
+
+			await act(async () => {
+				await user.type(username, "wronguser");
+				await user.type(password, "wrongpassword{enter}");
+			});
+
+			const toast = await screen.findByText("Username or password incorrect");
+			expect(toast).toBeInTheDocument();
+		});
 	});
 });
