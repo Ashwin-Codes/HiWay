@@ -70,8 +70,9 @@ export default function Register({ className }) {
 			setLoading(true);
 			await dispatch(signUp(credentials)).unwrap();
 		} catch (err) {
+			console.log(err);
 			setSignupErrors(err);
-			if (!err.message) {
+			if (!err.status || (err.status >= 500 && err.status <= 505)) {
 				showSignupErrorToast(err);
 			}
 			setLoading(false);
