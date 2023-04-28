@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import useFormState from "../../hooks/useFormState";
 import formValidations from "./formValidations";
 import { useDispatch, useSelector } from "react-redux";
@@ -164,9 +163,15 @@ export default function LoginForm({ className }) {
 				</form>
 				<span className="mt-4 mx-8 text-gray-500 font-normal">
 					Don't have an account ?{" "}
-					<NavLink to={"/signup"} className="text-slate-blue-500">
-						Sign up
-					</NavLink>
+					<a
+						href="/signup"
+						className="text-slate-blue-500"
+						onMouseDown={(e) => {
+							e.preventDefault();
+							navigate("/signup");
+						}}>
+						Sign Up
+					</a>
 				</span>
 			</div>
 		</div>
