@@ -219,7 +219,7 @@ export default function Register({ className }) {
 							disabled={loading ? true : false}
 							type="submit"
 							className="w-full h-full bg-slate-blue-500 rounded-lg text-white flex justify-center items-center">
-							{loading ? <Loader className="animate-spin text-xl" /> : "Sign in"}
+							{loading ? <Loader className="animate-spin text-xl" /> : "Sign up"}
 						</button>
 					</div>
 				</form>

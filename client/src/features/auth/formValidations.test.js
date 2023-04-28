@@ -61,7 +61,7 @@ describe("form validation logic", () => {
 		expect(passwordLengthValidation).toBe(true);
 	});
 
-	it("should return valid error message", async () => {
+	it("should return valid error message from getSigninErrorMessage function", async () => {
 		const { getSigninErrorMessage } = formValidations();
 
 		const usernameErrorMessage = getSigninErrorMessage("username", "required");
@@ -69,5 +69,18 @@ describe("form validation logic", () => {
 
 		const passwordErrorMessage = getSigninErrorMessage("password", "required");
 		expect(passwordErrorMessage).toBe("Please enter a password");
+	});
+
+	it("should return valid error message from getSignupErrorMessage function", async () => {
+		const { getSignupErrorMessage } = formValidations();
+
+		const emailErrorMessage = getSignupErrorMessage("email", "required");
+		expect(emailErrorMessage).toBe("Please enter an email");
+
+		const usernameErrorMessage = getSignupErrorMessage("username", "required");
+		expect(usernameErrorMessage).toBe("Please pick a username");
+
+		const passwordErrorMessage = getSignupErrorMessage("password", "required");
+		expect(passwordErrorMessage).toBe("Please pick a password");
 	});
 });
