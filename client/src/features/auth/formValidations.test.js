@@ -64,9 +64,6 @@ describe("form validation logic", () => {
 	it("should return valid error message", async () => {
 		const { getSigninErrorMessage } = formValidations();
 
-		const emailErrorMessage = getSigninErrorMessage("email", "required");
-		expect(emailErrorMessage).toBe("Please enter an email");
-
 		const usernameErrorMessage = getSigninErrorMessage("username", "required");
 		expect(usernameErrorMessage).toBe("Please enter a username");
 
