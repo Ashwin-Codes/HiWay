@@ -6,7 +6,7 @@ const validationRegex = {
 };
 
 const passwordSchema = new passwordValidator();
-passwordSchema.is().min(8).is().max(30).has().uppercase().has().lowercase().has().digits(2);
+passwordSchema.is().min(6);
 
 function validateSignup(username, email, password) {
 	if (!username || !email || !password) {
