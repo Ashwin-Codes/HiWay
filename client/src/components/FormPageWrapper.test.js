@@ -6,10 +6,6 @@ import LoginForm from "../features/auth/LoginForm";
 import SignupForm from "../features/auth/SignupForm";
 import { act } from "react-dom/test-utils";
 
-beforeEach(() => {
-	process.env.NODE_ENV = "test";
-});
-
 describe("Form page wrapper component", () => {
 	it("should render correctly", () => {
 		render(<FormPageWrapper />);
@@ -36,7 +32,6 @@ describe("Form page wrapper component", () => {
 
 	describe("LoginForm toast", () => {
 		it("should toast error on invalid credentials", async () => {
-			process.env.NODE_ENV = "development";
 			const user = userEvent.setup();
 
 			render(
@@ -59,7 +54,6 @@ describe("Form page wrapper component", () => {
 	});
 	describe("Signup toast", () => {
 		it("should toast error on status 500", async () => {
-			process.env.NODE_ENV = "development";
 			const user = userEvent.setup();
 
 			render(

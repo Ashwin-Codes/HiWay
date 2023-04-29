@@ -160,7 +160,6 @@ describe("Signup form", () => {
 	});
 
 	it("should redirect to login on signup", async () => {
-		process.env.NODE_ENV = "development";
 		const user = userEvent.setup();
 
 		render(<SignupForm />);
@@ -179,7 +178,6 @@ describe("Signup form", () => {
 	});
 
 	it("should show error if username is taken", async () => {
-		process.env.NODE_ENV = "development";
 		const user = userEvent.setup();
 
 		render(<SignupForm />);
@@ -197,7 +195,6 @@ describe("Signup form", () => {
 		expect(errorMessage).toBeInTheDocument();
 	});
 	it("should show error if email is already being used", async () => {
-		process.env.NODE_ENV = "development";
 		const user = userEvent.setup();
 
 		render(<SignupForm />);

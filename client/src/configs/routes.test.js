@@ -7,7 +7,6 @@ describe("Routes util function", () => {
 	});
 
 	it("should return route with localhost base url in development environment", () => {
-		process.env.NODE_ENV = "development";
 		const route = routes.signup;
 		expect(route).toContain(devServerUrl);
 	});
@@ -19,8 +18,6 @@ describe("Routes util function", () => {
 	});
 
 	it("should return correct routes in development environment", () => {
-		process.env.NODE_ENV = "development";
-
 		const signup = routes.signup;
 		const signin = routes.signin;
 		const logout = routes.logout;

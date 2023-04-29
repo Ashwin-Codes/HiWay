@@ -132,7 +132,6 @@ describe("Login form", () => {
 	});
 
 	it("should redirect to home on valid credentials", async () => {
-		process.env.NODE_ENV = "development";
 		const user = userEvent.setup();
 
 		render(<LoginForm />);
