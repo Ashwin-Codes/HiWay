@@ -47,6 +47,20 @@ export const signUp = createAsyncThunk("auth/signUp", async (credentials, { reje
 	}
 });
 
+export const refreshToken = createAsyncThunk("auth/refreshToken", async (signal = null, { rejectWithValue }) => {
+	try {
+		const response = await axios.get(routes.refresh, { withCredentials: true, signal });
+		return { username: response.data.username, accessToken: response.data.accessToken };
+	} catch (err) {
+		const errObj = {
+			code: err?.code,
+			...(err?.response?.status && { status: err?.response?.status }),
+			...(err?.response?.data.message && { message: err?.response?.data.message }),
+		};
+		return rejectWithValue(errObj);
+	}
+});
+
 const authSlice = createSlice({
 	name: "auth",
 	initialState,
@@ -58,6 +72,10 @@ const authSlice = createSlice({
 				state.username = action.payload.username;
 			})
 			.addCase(signUp.fulfilled, (state, action) => {
+				state.username = action.payload.username;
+			})
+			.addCase(refreshToken.fulfilled, (state, action) => {
+				state.accessToken = action.payload.accessToken;
 				state.username = action.payload.username;
 			});
 	},
