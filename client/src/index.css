@@ -10,6 +10,11 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	outline: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
 body {
 	font-family: "Poppins", sans-serif;
 }
