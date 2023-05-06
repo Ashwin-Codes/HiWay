@@ -42,7 +42,7 @@ export default function UserCam() {
 
 	return (
 		<div className="h-max flex flex-col justify-center items-center">
-			<div className="relative flex h-max max-w-[95%]">
+			<div className="relative flex h-max">
 				<video muted autoPlay ref={videoRef} className="transform rounded-lg max-h-60 sm:max-h-80"></video>
 				<UserCamControls
 					className="absolute z-10 flex bottom-1 left-2/4 -translate-x-2/4 gap-1"

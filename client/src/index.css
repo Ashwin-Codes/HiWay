@@ -18,3 +18,17 @@
 body {
 	font-family: "Poppins", sans-serif;
 }
+
+::-moz-selection {
+	color: white;
+	background: #7e56d9;
+}
+
+::selection {
+	color: white;
+	background: #7e56d9;
+}
+
+.fancy-btn {
+	@apply w-max flex justify-center items-center gap-1 px-4 py-2 relative before:transition-all before:duration-500 before:ease-[cubic-bezier(0.645,0.045,0.355,1)] before:absolute before:top-0 before:left-0 before:bottom-0 before:right-0 before:bg-slate-blue-500 before:z-10 before:rounded-3xl before:w-[40%] before:origin-[1.5rem_50%] before:-rotate-[10deg] hover:before:rotate-0 hover:before:w-full [&>*]:z-20 select-none;
+}
