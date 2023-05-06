@@ -4,7 +4,7 @@ async function verifyUserController(req, res, next) {
 	const authToken = req?.body?.accessToken;
 
 	if (!authToken) {
-		res.json({ userIsValid: true });
+		res.json({ userIsValid: false });
 		return;
 	}
 
