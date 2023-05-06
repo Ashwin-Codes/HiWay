@@ -5,6 +5,7 @@ export const apiRoutes = {
 	signin: "/login",
 	logout: "/logout",
 	refresh: "/refresh",
+	socket: "/",
 };
 
 const routes = new Proxy(

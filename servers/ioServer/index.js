@@ -24,6 +24,11 @@ app.use(
 	})
 );
 
+io.on("connection", (client) => {
+	client.emit("connected", client.id);
+	console.log(client.id, " connected !");
+});
+
 // Routes
 app.use(authProxyRoute);
 
