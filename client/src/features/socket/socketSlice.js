@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	connected: false,
 	connectionId: null,
+	roomId: null,
 };
 
 const socketSlice = createSlice({
@@ -12,8 +13,11 @@ const socketSlice = createSlice({
 			state.connected = true;
 			state.connectionId = action.payload.id;
 		},
+		newRoom(state, action) {
+			state.roomId = action.payload.roomId;
+		},
 	},
 });
 
-export const { connect } = socketSlice.actions;
+export const { connect, newRoom } = socketSlice.actions;
 export default socketSlice.reducer;

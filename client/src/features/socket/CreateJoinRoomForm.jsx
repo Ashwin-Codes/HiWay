@@ -1,8 +1,23 @@
-import React from "react";
+import socket from "./socketConn";
+import { useSelector } from "react-redux";
 import { MdEditRoad as CreateRoomIcon } from "react-icons/md";
 import { MdAddRoad as JoinRoomIcon } from "react-icons/md";
+import { getAuth } from "../auth/authSlice";
+import { useRef } from "react";
 
 export default function CreateJoinRoomForm() {
+	const roomIdInputRef = useRef();
+	const { accessToken } = useSelector(getAuth);
+
+	function createRoomHandler() {
+		socket.emit("create-room", { accessToken });
+	}
+
+	function joinRoomHandler() {
+		const roomId = roomIdInputRef.current.value.trim();
+		socket.emit("join-room", { roomId });
+	}
+
 	return (
 		<div className="my-8 px-6 py-4 rounded-lg sm:max-w-lg mx-auto lg:mx-0 lg:max-w-[80%] xl:w-[35rem]">
 			<form
@@ -12,7 +27,7 @@ export default function CreateJoinRoomForm() {
 				}}>
 				<div className="flex flex-col border-2 gap-4 p-5 rounded-lg">
 					<p className="text-gray-500">Create a new video chat room</p>
-					<button className="fancy-btn self-center">
+					<button className="fancy-btn self-center" onClick={createRoomHandler}>
 						<CreateRoomIcon className="text-white text-2xl" />
 						<h1 className="text-[#829cb9] font-semibold mix-blend-plus-lighter">Create Hiway</h1>
 					</button>
@@ -22,6 +37,7 @@ export default function CreateJoinRoomForm() {
 					<div className="relative flex flex-col gap-2 bg-cultured">
 						<input
 							id="join-room"
+							ref={roomIdInputRef}
 							type="text"
 							placeholder=" "
 							className="border-2 px-4 py-2 rounded-lg focus:border-slate-blue-500 text-gray-600 peer"
@@ -32,7 +48,7 @@ export default function CreateJoinRoomForm() {
 							Joining Code
 						</label>
 					</div>
-					<button className="fancy-btn self-center">
+					<button className="fancy-btn self-center" onClick={joinRoomHandler}>
 						<JoinRoomIcon className="text-white text-2xl" />
 						<h1 className="text-[#829cb9] font-semibold mix-blend-plus-lighter">Join Hiway</h1>
 					</button>

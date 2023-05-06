@@ -9,6 +9,10 @@ import corsConfig from "./configs/corsConfig.js";
 import authProxyRoute from "./routes/authProxyRoute.js";
 const __PORT = process.env.PORT;
 
+// Handlers
+import createRoomHandler from "./socket-handlers/createRoomHandler.js";
+import joinRoomHandler from "./socket-handlers/joinRoomHandler.js";
+
 const app = express();
 const server = http.createServer(app);
 
@@ -26,7 +30,14 @@ app.use(
 
 io.on("connection", (client) => {
 	client.emit("connected", client.id);
-	console.log(client.id, " connected !");
+
+	client.on("create-room", (payload) => {
+		createRoomHandler({ io, client, payload });
+	});
+
+	client.on("join-room", (payload) => {
+		joinRoomHandler({ io, client, payload });
+	});
 });
 
 // Routes
