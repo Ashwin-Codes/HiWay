@@ -20,6 +20,7 @@ const io = new Socket(server, {
 app.use(
 	cors({
 		origin: corsConfig.origin,
+		credentials: true,
 	})
 );
 

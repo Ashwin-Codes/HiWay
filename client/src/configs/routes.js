@@ -1,4 +1,4 @@
-export const devServerUrl = "http://localhost:5000";
+export const devServerUrl = "http://localhost:4000";
 
 export const apiRoutes = {
 	signup: "/signup",
