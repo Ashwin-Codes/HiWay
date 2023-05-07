@@ -1,21 +1,56 @@
+import { useRef, useState } from "react";
+import { getPermissionError } from "../media/mediaSettingsSlice";
 import socket from "./socketConn";
 import { useSelector } from "react-redux";
 import { MdEditRoad as CreateRoomIcon } from "react-icons/md";
 import { MdAddRoad as JoinRoomIcon } from "react-icons/md";
 import { getAuth } from "../auth/authSlice";
-import { useRef } from "react";
+import { errorToast } from "../../components/Toastify";
 
 export default function CreateJoinRoomForm() {
 	const roomIdInputRef = useRef();
 	const { accessToken } = useSelector(getAuth);
+	const permissionError = useSelector(getPermissionError);
+	const [inputError, setInputError] = useState(null);
 
 	function createRoomHandler() {
+		if (permissionError) {
+			errorToast({ message: "Please enable camera to continue", id: "permission-error" });
+			return;
+		}
 		socket.emit("create-room", { accessToken });
 	}
 
 	function joinRoomHandler() {
+		if (permissionError) {
+			errorToast({ message: "Please enable camera to continue", id: "permission-error" });
+			return;
+		}
+
 		const roomId = roomIdInputRef.current.value.trim();
+
+		if (roomId === "") {
+			errorToast({ message: "Please enter a joining code", id: "empty-room-code" });
+			setInputError(true);
+			return;
+		}
+		if (roomId.length < 12) {
+			setInputError(true);
+			errorToast({ message: "Invalid joining code", id: "invalid-room-code" });
+			return;
+		}
+
 		socket.emit("join-room", { roomId });
+		socket.on("wrong-room-code", () => {
+			setInputError(true);
+			errorToast({ message: "No such Hiway to join", id: "room-not-exists" });
+			socket.off("wrong-room-code");
+		});
+	}
+
+	function onInputChange() {
+		if (!inputError) return;
+		setInputError(null);
 	}
 
 	return (
@@ -40,7 +75,10 @@ export default function CreateJoinRoomForm() {
 							ref={roomIdInputRef}
 							type="text"
 							placeholder=" "
-							className="border-2 px-4 py-2 rounded-lg focus:border-slate-blue-500 text-gray-600 peer"
+							onChange={onInputChange}
+							className={`border-2 px-4 py-2 rounded-lg focus:border-slate-blue-500 text-gray-600 peer ${
+								inputError ? "border-red-200" : ""
+							}`}
 						/>
 						<label
 							className="absolute transition-all pointer-events-none translate-x-2 text-sm px-2 -translate-y-2/4 text-gray-500 bg-white rounded-lg border-2 peer-focus:border-slate-blue-500 peer-focus:bg-slate-blue-500 peer-focus:text-white peer-placeholder-shown:top-2/4 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:border-transparent peer-placeholder-shown:px2 peer-focus:top-0"
