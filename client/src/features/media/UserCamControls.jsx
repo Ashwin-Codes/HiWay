@@ -55,7 +55,10 @@ export default function UserCamControls({ className, streamRef, videoRef }) {
 					<MicOff className="text-slate-blue-500 text-lg" />
 				)}
 			</div>
-			<div className="p-3 bg-cultured rounded-full cursor-pointer" onClick={onVideoClick}>
+			<div
+				className="p-3 bg-cultured rounded-full cursor-pointer"
+				onClick={onVideoClick}
+				data-testid="camera-off-btn">
 				{activeMedia.video ? (
 					<VideoOn className="text-slate-blue-500 text-lg" />
 				) : (

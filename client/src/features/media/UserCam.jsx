@@ -51,7 +51,12 @@ export default function UserCam() {
 	return (
 		<div className="h-max flex flex-col justify-center items-center">
 			<div className={`relative flex h-max ${permissionError && "w-[80%] h-44 sm:max-w-md lg:w-full lg:h-60"}`}>
-				<video muted autoPlay ref={videoRef} className="transform rounded-lg max-h-60 sm:max-h-80"></video>
+				<video
+					muted
+					autoPlay
+					ref={videoRef}
+					className="transform rounded-lg max-h-60 sm:max-h-80"
+					data-testid="webcam-video"></video>
 				{!permissionError && (
 					<UserCamControls
 						className="absolute z-10 flex bottom-1 left-2/4 -translate-x-2/4 gap-1"
