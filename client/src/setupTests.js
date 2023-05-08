@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom";
+import "setimmediate";
 
 // Mock REST server
 import { server } from "./mocks/server";
