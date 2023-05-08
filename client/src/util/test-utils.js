@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { store as reduxStore } from "../store/store";
 import authSlice from "../features/auth/authSlice";
+import mediaSettingsSlice from "../features/media/mediaSettingsSlice";
+import socketSlice from "../features/socket/socketSlice";
 
 const customRender = (ui, { preloadedState = {}, ...options } = {}) => {
 	let store = reduxStore;
@@ -11,6 +13,8 @@ const customRender = (ui, { preloadedState = {}, ...options } = {}) => {
 		store = configureStore({
 			reducer: {
 				auth: authSlice,
+				mediaSettings: mediaSettingsSlice,
+				socket: socketSlice,
 			},
 			preloadedState,
 		});

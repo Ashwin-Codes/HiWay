@@ -21,7 +21,7 @@ describe("App", () => {
 	it("should render home page when authenticated", async () => {
 		Cookies.set("jwt", "refreshCookie");
 		render(<App />);
-		const homePageElement = await screen.findByText(/home/i);
+		const homePageElement = await screen.findByText(/create a new video chat room/i);
 		expect(homePageElement).toBeInTheDocument();
 	});
 });
