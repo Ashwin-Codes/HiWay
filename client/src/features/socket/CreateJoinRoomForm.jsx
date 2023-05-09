@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getPermissionError } from "../media/mediaSettingsSlice";
 import socket from "./socketConn";
 import { useSelector } from "react-redux";
@@ -6,12 +6,22 @@ import { MdEditRoad as CreateRoomIcon } from "react-icons/md";
 import { MdAddRoad as JoinRoomIcon } from "react-icons/md";
 import { getAuth } from "../auth/authSlice";
 import { errorToast } from "../../components/Toastify";
+import { useNavigate } from "react-router-dom";
+import { getSocketState } from "./socketSlice";
 
 export default function CreateJoinRoomForm() {
 	const roomIdInputRef = useRef();
 	const { accessToken } = useSelector(getAuth);
 	const permissionError = useSelector(getPermissionError);
 	const [inputError, setInputError] = useState(null);
+	const socketState = useSelector(getSocketState);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (socketState.roomId) {
+			navigate(`/${socketState.roomId}`);
+		}
+	}, [socketState, navigate]);
 
 	function createRoomHandler() {
 		if (permissionError) {
@@ -26,7 +36,6 @@ export default function CreateJoinRoomForm() {
 			errorToast({ message: "Please enable camera to continue", id: "permission-error" });
 			return;
 		}
-
 		const roomId = roomIdInputRef.current.value.trim();
 
 		if (roomId === "") {

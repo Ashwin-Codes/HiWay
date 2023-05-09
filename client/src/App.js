@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import LoadingPage from "./pages/LoadingPage";
+import VideoChat from "./pages/VideoChat";
 
 function App() {
 	const [loading, setLoading] = useState(true);
@@ -44,6 +45,7 @@ function App() {
 						</Protected>
 					}
 				/>
+				<Route path="/:roomId" element={<VideoChat />} />
 				<Route path="login" element={<Login />} />
 				<Route path="signup" element={<Register />} />
 				<Route path="*" element={<Navigate to={"/"} />} />

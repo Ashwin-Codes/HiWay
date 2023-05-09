@@ -19,5 +19,9 @@ const socketSlice = createSlice({
 	},
 });
 
+export function getSocketState(state) {
+	return state.socket;
+}
+
 export const { connect, newRoom } = socketSlice.actions;
 export default socketSlice.reducer;
