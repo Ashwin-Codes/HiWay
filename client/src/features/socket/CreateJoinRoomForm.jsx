@@ -65,13 +65,14 @@ export default function CreateJoinRoomForm() {
 	return (
 		<div className="my-8 px-6 py-4 rounded-lg sm:max-w-lg mx-auto lg:mx-0 lg:max-w-[80%] xl:w-[35rem]">
 			<form
-				className="flex flex-col gap-2 xl:gap-8"
-				onClick={(e) => {
+				onSubmit={(e) => {
+					joinRoomHandler();
 					e.preventDefault();
-				}}>
+				}}
+				className="flex flex-col gap-2 xl:gap-8">
 				<div className="flex flex-col border-2 gap-4 p-5 rounded-lg">
 					<p className="text-gray-500">Create a new video chat room</p>
-					<button className="fancy-btn self-center" onClick={createRoomHandler}>
+					<button className="fancy-btn self-center" onClick={createRoomHandler} type="button">
 						<CreateRoomIcon className="text-white text-2xl" />
 						<h1 className="text-[#829cb9] font-semibold mix-blend-plus-lighter">Create Hiway</h1>
 					</button>
@@ -95,7 +96,7 @@ export default function CreateJoinRoomForm() {
 							Joining Code
 						</label>
 					</div>
-					<button className="fancy-btn self-center" onClick={joinRoomHandler}>
+					<button className="fancy-btn self-center" type="submit">
 						<JoinRoomIcon className="text-white text-2xl" />
 						<h1 className="text-[#829cb9] font-semibold mix-blend-plus-lighter">Join Hiway</h1>
 					</button>
