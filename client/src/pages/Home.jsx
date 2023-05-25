@@ -2,8 +2,17 @@ import UserCam from "../features/media/UserCam";
 import CreateJoinRoomForm from "../features/socket/CreateJoinRoomForm";
 import { AiOutlineCaretRight as Arrow } from "react-icons/ai";
 import Toastify from "../components/Toastify";
+import { useEffect } from "react";
+import { setPickedMediaPreference } from "../features/media/mediaSettingsSlice";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(setPickedMediaPreference(true));
+	}, [dispatch]);
+
 	return (
 		<>
 			<Toastify />

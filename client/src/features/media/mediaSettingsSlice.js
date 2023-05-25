@@ -5,6 +5,7 @@ const initialState = {
 		audio: true,
 		video: true,
 	},
+	pickedMediaPreference: false,
 	permissionError: false,
 };
 
@@ -18,6 +19,9 @@ const mediaSettingsSlice = createSlice({
 		setPermissionError(state, action) {
 			state.permissionError = action.payload;
 		},
+		setPickedMediaPreference(state, action) {
+			state.pickedMediaPreference = action.payload;
+		},
 	},
 });
 
@@ -29,5 +33,9 @@ export function getPermissionError(state) {
 	return state.mediaSettings.permissionError;
 }
 
-export const { setActiveMedia, setPermissionError } = mediaSettingsSlice.actions;
+export function getPickedMediaPreference(state) {
+	return state.mediaSettings.pickedMediaPreference;
+}
+
+export const { setActiveMedia, setPermissionError, setPickedMediaPreference } = mediaSettingsSlice.actions;
 export default mediaSettingsSlice.reducer;
