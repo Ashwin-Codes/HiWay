@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import socket from "../features/socket/socketConn";
 import { useSelector } from "react-redux";
-import { getSocketState } from "../features/socket/socketSlice";
+import { getSocketState, getAllUsersInRoom } from "../features/socket/socketSlice";
 import { getPickedMediaPreference } from "../features/media/mediaSettingsSlice";
 import { errorToast } from "../components/Toastify";
 import MediaPreference from "../features/media/MediaPreference";
 
 export default function VideoChat() {
+	const usersInRoom = useSelector(getAllUsersInRoom);
 	const pickedMediaPreference = useSelector(getPickedMediaPreference);
 	const socketState = useSelector(getSocketState);
 	const navigate = useNavigate();

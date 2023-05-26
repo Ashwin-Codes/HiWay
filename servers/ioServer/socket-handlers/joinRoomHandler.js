@@ -7,4 +7,8 @@ export default async function joinRoomHandler({ io, client, payload }) {
 	}
 	client.join(roomId);
 	client.emit("joined-room", roomId);
+
+	// Room Data
+	const users = Array.from(io.sockets.adapter.rooms.get(roomId));
+	io.to(roomId).emit("room-users", users);
 }

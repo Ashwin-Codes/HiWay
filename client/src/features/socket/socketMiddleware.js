@@ -1,5 +1,5 @@
 import socket from "./socketConn";
-import { connect, newRoom } from "./socketSlice";
+import { connect, newRoom, setUsers } from "./socketSlice";
 
 export default function socketMiddleware({ dispatch, getState }) {
 	socket.on("connected", (id) => {
@@ -12,6 +12,10 @@ export default function socketMiddleware({ dispatch, getState }) {
 
 	socket.on("joined-room", (roomId) => {
 		dispatch(newRoom({ roomId }));
+	});
+
+	socket.on("room-users", (users) => {
+		dispatch(setUsers(users));
 	});
 
 	return (next) => (action) => {

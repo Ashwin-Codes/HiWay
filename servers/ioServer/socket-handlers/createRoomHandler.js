@@ -18,6 +18,10 @@ export default async function createRoomHandler({ io, client, payload }) {
 			const roomId = uuid.generate(isUnique);
 			client.join(roomId);
 			client.emit("room-created", roomId);
+
+			// Room Data
+			const users = Array.from(io.sockets.adapter.rooms.get(roomId));
+			client.emit("room-users", users);
 			return;
 		}
 		client.emit("socket-error");

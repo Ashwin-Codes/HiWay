@@ -3,6 +3,7 @@ const initialState = {
 	connected: false,
 	connectionId: null,
 	roomId: null,
+	roomUsers: [],
 };
 
 const socketSlice = createSlice({
@@ -16,6 +17,9 @@ const socketSlice = createSlice({
 		newRoom(state, action) {
 			state.roomId = action.payload.roomId;
 		},
+		setUsers(state, action) {
+			state.roomUsers = action.payload;
+		},
 	},
 });
 
@@ -23,5 +27,9 @@ export function getSocketState(state) {
 	return state.socket;
 }
 
-export const { connect, newRoom } = socketSlice.actions;
+export function getAllUsersInRoom(state) {
+	return state.socket.roomUsers;
+}
+
+export const { connect, newRoom, setUsers } = socketSlice.actions;
 export default socketSlice.reducer;
