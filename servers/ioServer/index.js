@@ -12,6 +12,9 @@ const __PORT = process.env.PORT;
 // Handlers
 import createRoomHandler from "./socket-handlers/createRoomHandler.js";
 import joinRoomHandler from "./socket-handlers/joinRoomHandler.js";
+import sendConnectionRequest from "./socket-handlers/sendConnectionRequest.js";
+import acceptRequest from "./socket-handlers/acceptRequest.js";
+import messageHandler from "./socket-handlers/messageHandler.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -37,6 +40,18 @@ io.on("connection", (client) => {
 
 	client.on("join-room", (payload) => {
 		joinRoomHandler({ io, client, payload });
+	});
+
+	client.on("send-connection-request", (payload) => {
+		sendConnectionRequest({ io, client, payload });
+	});
+
+	client.on("accept-request", (payload) => {
+		acceptRequest({ io, client, payload });
+	});
+
+	client.on("message", (payload) => {
+		messageHandler({ io, client, payload });
 	});
 });
 

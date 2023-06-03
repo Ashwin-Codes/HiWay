@@ -11,4 +11,6 @@ export default async function joinRoomHandler({ io, client, payload }) {
 	// Room Data
 	const users = Array.from(io.sockets.adapter.rooms.get(roomId));
 	io.to(roomId).emit("room-users", users);
+
+	client.emit("initiate-connection");
 }
