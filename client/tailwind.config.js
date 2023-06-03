@@ -37,6 +37,9 @@ module.exports = {
 				cultured: "#F3F5F9",
 				auroMetal: "#6B8587",
 			},
+			gridTemplateColumns: {
+				split: "repeat(auto-fit, minmax(50%, 1fr))",
+			},
 		},
 	},
 	plugins: [],
