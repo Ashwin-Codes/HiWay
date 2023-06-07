@@ -9,7 +9,7 @@ import { getAuth } from "../auth/authSlice";
 export default function TextChat() {
 	const socketState = useSelector(getSocketState);
 	const { username } = useSelector(getAuth);
-	const [messageState, setMessageState] = useState([{ message: "Hello World", author: "Guest" }]);
+	const [messageState, setMessageState] = useState([]);
 	const inputRef = useRef();
 	const chatBoxRef = useRef();
 
@@ -60,14 +60,15 @@ export default function TextChat() {
 	}, []);
 
 	return (
-		<div className="h-[90%] w-[26rem] relative">
+		<div className="h-[90%] w-full xl:w-[26rem] max-w-[100vw] relative">
 			<div className="bg-cultured rounded-tl-lg rounded-tr-lg absolute top-0 left-0 w-full p-4 font-semibold border-b-2">
 				Group Chat
 			</div>
 			<div className="bg-cultured pt-14 pb-20 h-full overflow-auto scroll-smooth rounded-xl" ref={chatBoxRef}>
-				{messageState.map((message) => {
-					return <Message msg={message.message} author={message.author} />;
+				{messageState.map((message, index) => {
+					return <Message key={index} msg={message.message} author={message.author} />;
 				})}
+				{messageState.length === 0 && <h1 className="text-slate-blue-500 text-center p-8">No Messages</h1>}
 			</div>
 			<div className="bg-cultured absolute bottom-0 w-full p-4 rounded-bl-lg rounded-br-lg">
 				<form
