@@ -159,12 +159,12 @@ export default function VideoChatDashboard() {
 			: "grid-cols-3";
 
 	if (window.innerHeight > window.innerWidth) {
-		tailwindClasses = tailwindClasses + " place-content-start grid-cols-1";
+		tailwindClasses = "place-content-start grid-cols-1";
 	}
 
 	return (
 		<div className="h-full">
-			<div className={"h-full grid rounded-xl overflow-auto " + tailwindClasses}>
+			<div className={`h-full grid rounded-xl overflow-auto ${tailwindClasses}`}>
 				{videoStreams.map((streamObj, index) => {
 					return (
 						<div className="h-full m-2 flex justify-center items-center rounded-lg" key={index}>

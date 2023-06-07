@@ -50,7 +50,7 @@ export default function VideoChat() {
 
 	return (
 		<>
-			<div className="relative h-screen overflow-hidden h-[100dvh]">
+			<div className="relative overflow-hidden h-[100dvh]">
 				<div
 					className={`h-12 w-28 mt-2 rounded-tl-full rounded-bl-full transition-all bg-slate-blue-500 fixed top-0 right-0 flex items-center z-10 xl:hidden ${
 						chatVisible ? "translate-x-2/4 px-2" : "px-4"
