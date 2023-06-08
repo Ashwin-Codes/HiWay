@@ -15,6 +15,7 @@ import joinRoomHandler from "./socket-handlers/joinRoomHandler.js";
 import sendConnectionRequest from "./socket-handlers/sendConnectionRequest.js";
 import acceptRequest from "./socket-handlers/acceptRequest.js";
 import messageHandler from "./socket-handlers/messageHandler.js";
+import disconnectHandler from "./socket-handlers/disconnectHandler.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -52,6 +53,10 @@ io.on("connection", (client) => {
 
 	client.on("message", (payload) => {
 		messageHandler({ io, client, payload });
+	});
+
+	client.on("disconnect", () => {
+		disconnectHandler({ io, client });
 	});
 });
 

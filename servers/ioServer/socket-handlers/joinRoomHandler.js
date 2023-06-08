@@ -6,6 +6,7 @@ export default async function joinRoomHandler({ io, client, payload }) {
 		return;
 	}
 	client.join(roomId);
+	client.chatroom = roomId;
 	client.emit("joined-room", roomId);
 
 	// Room Data

@@ -39,6 +39,19 @@ export default function VideoChatDashboard() {
 	}, [getUserStream]);
 
 	useEffect(() => {
+		socket.on("user-disconnected", (payload) => {
+			const users = videoStreams.filter((stream) => {
+				return stream.id !== payload.id;
+			});
+			setVideoStreams(users);
+		});
+
+		return () => {
+			socket.off("user-disconnected");
+		};
+	}, [videoStreams]);
+
+	useEffect(() => {
 		socket.on("initiate-connection", () => {
 			console.log("initiate-connection");
 			function sendVideoRequest() {
@@ -67,8 +80,7 @@ export default function VideoChatDashboard() {
 						});
 
 						peer.on("stream", (stream) => {
-							console.log("stream recieved");
-							setVideoStreams((prevState) => [...prevState, { self: false, stream }]);
+							setVideoStreams((prevState) => [...prevState, { self: false, id: user, stream }]);
 						});
 
 						peer.on("error", (err) => {
@@ -112,7 +124,7 @@ export default function VideoChatDashboard() {
 
 			peer.on("stream", (stream) => {
 				console.log("stream recieved");
-				setVideoStreams((prevState) => [...prevState, { self: false, stream }]);
+				setVideoStreams((prevState) => [...prevState, { self: false, id: payload.requestFrom, stream }]);
 			});
 
 			peer.on("error", (err) => {

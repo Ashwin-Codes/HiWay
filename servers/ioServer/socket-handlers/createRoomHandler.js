@@ -17,6 +17,7 @@ export default async function createRoomHandler({ io, client, payload }) {
 		if (response.data.userIsValid) {
 			const roomId = uuid.generate(isUnique);
 			client.join(roomId);
+			client.chatroom = roomId;
 			client.emit("room-created", roomId);
 
 			// Room Data
