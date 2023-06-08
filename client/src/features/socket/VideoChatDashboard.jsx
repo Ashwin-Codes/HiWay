@@ -53,18 +53,14 @@ export default function VideoChatDashboard() {
 
 	useEffect(() => {
 		socket.on("initiate-connection", () => {
-			console.log("initiate-connection");
 			function sendVideoRequest() {
-				console.log("function ran");
 				for (const user of users) {
-					console.log("user :", user);
 					if (user !== socketId.connectionId) {
 						const peer = new SimplePeer({
 							initiator: true,
 							trickle: false,
 							stream: streamRef.current,
 						});
-						console.log("peer build : ", peer);
 						peer.on("signal", (data) => {
 							socket.emit("send-connection-request", { signalData: data, to: user });
 						});
@@ -75,23 +71,16 @@ export default function VideoChatDashboard() {
 							}
 						});
 
-						peer.on("connect", () => {
-							console.log("Connected to peer");
-						});
-
 						peer.on("stream", (stream) => {
 							setVideoStreams((prevState) => [...prevState, { self: false, id: user, stream }]);
 						});
 
-						peer.on("error", (err) => {
-							console.log(err);
-						});
+						peer.on("error", (err) => {});
 					}
 				}
 			}
 
 			function condition() {
-				console.log("condition : ", streamRef.current);
 				return Boolean(streamRef.current);
 			}
 
@@ -99,13 +88,10 @@ export default function VideoChatDashboard() {
 				.then(() => {
 					sendVideoRequest();
 				})
-				.catch((err) => {
-					console.log(err);
-				});
+				.catch((err) => {});
 		});
 
 		socket.on("incoming-connection-request", (payload) => {
-			console.log("incoming-connection-request");
 			const peer = new SimplePeer({
 				initiator: false,
 				trickle: false,
@@ -118,18 +104,10 @@ export default function VideoChatDashboard() {
 				socket.emit("accept-request", { signalData: data, to: payload.requestFrom });
 			});
 
-			peer.on("connect", () => {
-				console.log("Connected to peer");
-			});
-
 			peer.on("stream", (stream) => {
-				console.log("stream recieved");
 				setVideoStreams((prevState) => [...prevState, { self: false, id: payload.requestFrom, stream }]);
 			});
-
-			peer.on("error", (err) => {
-				console.log(err);
-			});
+			peer.on("error", (err) => {});
 		});
 
 		return () => {
