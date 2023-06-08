@@ -5,6 +5,7 @@ import { BsFillMicMuteFill as MicOff } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { getActiveMedia, setActiveMedia } from "../media/mediaSettingsSlice";
 import { MdCallEnd as PhoneIcon } from "react-icons/md";
+import { useEffect } from "react";
 
 export default function VideoChatDashboardControls({ streamRef }) {
 	const activeMedia = useSelector(getActiveMedia);
@@ -21,18 +22,44 @@ export default function VideoChatDashboardControls({ streamRef }) {
 		);
 	}
 
+	function promisifiedTimeout(condition) {
+		let timeoutInMs = 5000;
+		return new Promise((resolve, reject) => {
+			const interval = setInterval(() => {
+				if (condition()) {
+					resolve(streamRef.current);
+					clearInterval(interval);
+					return;
+				}
+				if (timeoutInMs <= 0) {
+					reject();
+					clearInterval(interval);
+				}
+				timeoutInMs = timeoutInMs - 100;
+			}, 100);
+		});
+	}
+
+	useEffect(() => {
+		function condition() {
+			return Boolean(streamRef.current);
+		}
+		promisifiedTimeout(condition).then(() => {
+			streamRef.current.getAudioTracks()[0].enabled = activeMedia.audio;
+			streamRef.current.getVideoTracks()[0].enabled = activeMedia.video;
+		});
+	}, [activeMedia, streamRef]);
+
 	function micOffHandler() {
 		const config = { ...activeMedia };
 		config.audio = !activeMedia.audio;
 		dispatch(setActiveMedia(config));
-		streamRef.current.getAudioTracks()[0].enabled = !streamRef.current.getAudioTracks()[0].enabled;
 	}
 
 	function cameraOffHandler() {
 		const config = { ...activeMedia };
 		config.video = !activeMedia.video;
 		dispatch(setActiveMedia(config));
-		streamRef.current.getVideoTracks()[0].enabled = !streamRef.current.getVideoTracks()[0].enabled;
 	}
 
 	return (
