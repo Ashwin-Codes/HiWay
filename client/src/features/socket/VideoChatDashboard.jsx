@@ -187,7 +187,7 @@ export default function VideoChatDashboard() {
 					);
 				})}
 			</div>
-			<VideoChatDashboardControls />
+			<VideoChatDashboardControls streamRef={streamRef} />
 			<button className="absolute z-30 text-red-700 top-0" onClick={test}>
 				Add Video
 			</button>
