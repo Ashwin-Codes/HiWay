@@ -4,9 +4,11 @@ import cors from "cors";
 import express from "express";
 import http from "http";
 import { Server as Socket } from "socket.io";
+import path from "path";
 
 import corsConfig from "./configs/corsConfig.js";
 import authProxyRoute from "./routes/authProxyRoute.js";
+import clientRoute from "./routes/clientRoute.js";
 const __PORT = process.env.PORT;
 
 // Handlers
@@ -62,6 +64,7 @@ io.on("connection", (client) => {
 
 // Routes
 app.use(authProxyRoute);
+app.use(clientRoute);
 
 // Send status 'forbidden' for every unhandled route
 app.use((req, res, next) => {
