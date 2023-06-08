@@ -69,7 +69,7 @@ export default function VideoChat() {
 					<VideoChatDashboard />
 					<div
 						className={
-							"h-[calc(100vh-3rem)]  max-h-full flex flex-col gap-4 absolute bg-white left-0 w-full transition-all xl:static xl:w-[unset] " +
+							"h-full max-h-full flex flex-col gap-4 absolute bg-white left-0 w-full transition-all xl:static xl:w-[unset] " +
 							`${chatVisible ? "top-0" : "top-full"}`
 						}>
 						<Participants />

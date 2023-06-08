@@ -7,6 +7,7 @@ import socket from "./socketConn";
 import { getAllUsersInRoom, getSocketState } from "./socketSlice";
 import { useSelector } from "react-redux";
 import SimplePeer from "simple-peer";
+import promisifiedTimeout from "../../util/promisifiedTimeout";
 
 // Polyfill
 window.global = window;
@@ -36,24 +37,6 @@ export default function VideoChatDashboard() {
 			streamRef.current = null;
 		};
 	}, [getUserStream]);
-
-	function promisifiedTimeout(condition) {
-		let timeoutInMs = 5000;
-		return new Promise((resolve, reject) => {
-			const interval = setInterval(() => {
-				if (condition()) {
-					resolve(streamRef.current);
-					clearInterval(interval);
-					return;
-				}
-				if (timeoutInMs <= 0) {
-					reject();
-					clearInterval(interval);
-				}
-				timeoutInMs = timeoutInMs - 100;
-			}, 100);
-		});
-	}
 
 	useEffect(() => {
 		socket.on("initiate-connection", () => {

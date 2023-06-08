@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FaVideo as VideoOn } from "react-icons/fa";
 import { FaVideoSlash as VideoOff } from "react-icons/fa";
 import { BsFillMicFill as MicOn } from "react-icons/bs";
@@ -5,7 +6,7 @@ import { BsFillMicMuteFill as MicOff } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { getActiveMedia, setActiveMedia } from "../media/mediaSettingsSlice";
 import { MdCallEnd as PhoneIcon } from "react-icons/md";
-import { useEffect } from "react";
+import promisifiedTimeout from "../../util/promisifiedTimeout";
 
 export default function VideoChatDashboardControls({ streamRef }) {
 	const activeMedia = useSelector(getActiveMedia);
@@ -20,24 +21,6 @@ export default function VideoChatDashboardControls({ streamRef }) {
 				{children}
 			</div>
 		);
-	}
-
-	function promisifiedTimeout(condition) {
-		let timeoutInMs = 5000;
-		return new Promise((resolve, reject) => {
-			const interval = setInterval(() => {
-				if (condition()) {
-					resolve(streamRef.current);
-					clearInterval(interval);
-					return;
-				}
-				if (timeoutInMs <= 0) {
-					reject();
-					clearInterval(interval);
-				}
-				timeoutInMs = timeoutInMs - 100;
-			}, 100);
-		});
 	}
 
 	useEffect(() => {
