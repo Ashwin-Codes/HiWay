@@ -124,10 +124,6 @@ export default function VideoChatDashboard() {
 		};
 	}, [users, socketId]);
 
-	function test() {
-		setVideoStreams([...videoStreams, { self: false, stream: streamRef.current }]);
-	}
-
 	let tailwindClasses =
 		videoStreams.length === 1
 			? "place-content-center"
@@ -169,9 +165,6 @@ export default function VideoChatDashboard() {
 				})}
 			</div>
 			<VideoChatDashboardControls streamRef={streamRef} />
-			<button className="absolute z-30 text-red-700 top-0" onClick={test}>
-				Add Video
-			</button>
 		</div>
 	);
 }
