@@ -9,9 +9,14 @@ export default async function joinRoomHandler({ io, client, payload }) {
 	client.chatroom = roomId;
 	client.emit("joined-room", roomId);
 
+	function initConn() {
+		client.emit("initiate-connection");
+		client.off("client-ready", initConn);
+	}
+
+	client.on("client-ready", initConn);
+
 	// Room Data
 	const users = Array.from(io.sockets.adapter.rooms.get(roomId));
 	io.to(roomId).emit("room-users", users);
-
-	client.emit("initiate-connection");
 }

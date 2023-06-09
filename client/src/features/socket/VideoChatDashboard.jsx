@@ -26,6 +26,7 @@ export default function VideoChatDashboard() {
 			const stream = await getUserStream();
 			streamRef.current = stream;
 			setVideoStreams([{ self: true, stream: streamRef.current }]);
+			socket.emit("client-ready");
 		}
 		userStream();
 
