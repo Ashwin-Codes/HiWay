@@ -1,9 +1,17 @@
 import socket from "./socketConn";
-import { connect, newRoom, setUsers } from "./socketSlice";
+import { connect, disconnect, leftRoom, newRoom, setUsers } from "./socketSlice";
 
 export default function socketMiddleware({ dispatch, getState }) {
 	socket.on("connected", (id) => {
 		dispatch(connect({ id }));
+	});
+
+	socket.on("disconnect", () => {
+		dispatch(disconnect());
+	});
+
+	socket.on("left-room", (roomId) => {
+		dispatch(leftRoom(roomId));
 	});
 
 	socket.on("room-created", (roomId) => {

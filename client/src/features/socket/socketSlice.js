@@ -14,6 +14,18 @@ const socketSlice = createSlice({
 			state.connected = true;
 			state.connectionId = action.payload.id;
 		},
+		disconnect(state, action) {
+			state.connected = false;
+			state.connectionId = null;
+			state.roomId = null;
+			state.roomUsers = [];
+		},
+		leftRoom(state, action) {
+			if (action.payload === state.roomId) {
+				state.roomId = null;
+				state.roomUsers = [];
+			}
+		},
 		newRoom(state, action) {
 			state.roomId = action.payload.roomId;
 		},
@@ -31,5 +43,5 @@ export function getAllUsersInRoom(state) {
 	return state.socket.roomUsers;
 }
 
-export const { connect, newRoom, setUsers } = socketSlice.actions;
+export const { connect, disconnect, leftRoom, newRoom, setUsers } = socketSlice.actions;
 export default socketSlice.reducer;

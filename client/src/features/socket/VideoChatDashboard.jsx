@@ -22,15 +22,22 @@ export default function VideoChatDashboard() {
 	const [videoStreams, setVideoStreams] = useState([]);
 
 	useEffect(() => {
+		let mounted = true;
 		async function userStream() {
 			const stream = await getUserStream();
-			streamRef.current = stream;
-			setVideoStreams([{ self: true, stream: streamRef.current }]);
-			socket.emit("client-ready");
+			if (mounted) {
+				streamRef.current = stream;
+				setVideoStreams([{ self: true, stream: streamRef.current }]);
+				socket.emit("client-ready");
+			} else {
+				stream.getTracks().forEach((track) => {
+					track.stop();
+				});
+			}
 		}
 		userStream();
-
 		return () => {
+			mounted = false;
 			if (!streamRef.current) return;
 			streamRef.current.getTracks().forEach((track) => {
 				track.stop();

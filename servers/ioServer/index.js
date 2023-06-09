@@ -18,6 +18,7 @@ import sendConnectionRequest from "./socket-handlers/sendConnectionRequest.js";
 import acceptRequest from "./socket-handlers/acceptRequest.js";
 import messageHandler from "./socket-handlers/messageHandler.js";
 import disconnectHandler from "./socket-handlers/disconnectHandler.js";
+import leaveRoomHandler from "./socket-handlers/leaveRoomHandler.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -43,6 +44,10 @@ io.on("connection", (client) => {
 
 	client.on("join-room", (payload) => {
 		joinRoomHandler({ io, client, payload });
+	});
+
+	client.on("leave-room", (payload) => {
+		leaveRoomHandler({ io, client, payload });
 	});
 
 	client.on("send-connection-request", (payload) => {

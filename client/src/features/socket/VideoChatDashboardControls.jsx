@@ -7,10 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getActiveMedia, setActiveMedia } from "../media/mediaSettingsSlice";
 import { MdCallEnd as PhoneIcon } from "react-icons/md";
 import promisifiedTimeout from "../../util/promisifiedTimeout";
+import { useNavigate } from "react-router-dom";
+import socket from "./socketConn";
+import { getSocketState } from "./socketSlice";
 
 export default function VideoChatDashboardControls({ streamRef }) {
 	const activeMedia = useSelector(getActiveMedia);
+	const socketState = useSelector(getSocketState);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	function Wrapper({ children, onClick }) {
 		return (
@@ -45,6 +50,11 @@ export default function VideoChatDashboardControls({ streamRef }) {
 		dispatch(setActiveMedia(config));
 	}
 
+	function exitCallHandler() {
+		socket.emit("leave-room", { roomId: socketState.roomId });
+		navigate("/thankyou", { replace: true });
+	}
+
 	return (
 		<div className="absolute bottom-0 left-0 right-0 bg-cultured py-2 flex justify-center items-center gap-2">
 			<Wrapper onClick={micOffHandler}>
@@ -57,7 +67,9 @@ export default function VideoChatDashboardControls({ streamRef }) {
 				</div>
 			</Wrapper>
 
-			<div className="flex justify-center items-center w-14 h-14 lg:w-16 lg:h-16 bg-[#fd5d5c] rounded-2xl">
+			<div
+				className="flex justify-center items-center cursor-pointer w-14 h-14 lg:w-16 lg:h-16 bg-[#fd5d5c] rounded-2xl"
+				onClick={exitCallHandler}>
 				<PhoneIcon className="text-white text-2xl lg:text-3xl" />
 			</div>
 
