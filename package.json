@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "server/server.js",
 	"scripts": {
-		"server": "nodemon server/server.js",
+		"authServer": "cd servers/authServer && npm start",
+		"ioServer": "cd servers/ioServer && npm start",
 		"client": "cd client && npm run start",
 		"build": "cd client && npm run build"
 	},
