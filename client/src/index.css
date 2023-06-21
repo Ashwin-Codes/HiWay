@@ -32,3 +32,24 @@ body {
 .fancy-btn {
 	@apply w-max flex justify-center items-center gap-1 px-4 py-2 relative before:transition-all before:duration-500 before:ease-[cubic-bezier(0.645,0.045,0.355,1)] before:absolute before:top-0 before:left-0 before:bottom-0 before:right-0 before:bg-slate-blue-500 before:z-10 before:rounded-3xl before:w-full lg:before:w-[40%] lg:before:origin-[1.5rem_50%] lg:before:-rotate-[10deg] hover:before:rotate-0 hover:before:w-full [&>*]:z-20 select-none;
 }
+
+/* Scrollbar Styles */
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #7e56d9;
+	border-radius: 6px;
+	overflow: hidden;
+	z-index: 100;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #c5c5c5;
+}
