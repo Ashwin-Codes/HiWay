@@ -136,7 +136,10 @@ export default function VideoChatDashboard() {
 			: "grid-cols-3";
 
 	if (window.innerHeight > window.innerWidth) {
-		tailwindClasses = "place-content-start grid-cols-1";
+		if (videoStreams.length === 1) {
+			tailwindClasses += "place-content-start";
+		}
+		tailwindClasses = "grid-cols-1";
 	}
 
 	return (
@@ -144,7 +147,7 @@ export default function VideoChatDashboard() {
 			<div className={`h-full grid rounded-xl overflow-auto ${tailwindClasses}`}>
 				{videoStreams.map((streamObj, index) => {
 					return (
-						<div className="h-full m-2 flex justify-center items-center rounded-lg" key={index}>
+						<div className="h-full mx-2 flex justify-center items-center rounded-lg" key={index}>
 							<video
 								className={`w-full rounded-lg aspect-video bg-black  ${
 									window.innerHeight > window.innerWidth

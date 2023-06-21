@@ -60,17 +60,17 @@ export default function TextChat() {
 	}, []);
 
 	return (
-		<div className="h-[90%] w-full xl:w-[26rem] max-w-[100vw] relative">
-			<div className="bg-cultured rounded-tl-lg rounded-tr-lg absolute top-0 left-0 w-full p-4 font-semibold border-b-2">
+		<div className="h-[90%] w-full xl:w-[26rem] max-w-[100vw] relative flex flex-col">
+			<div className="bg-cultured rounded-tl-md rounded-tr-md w-full p-4 font-semibold border-b-2">
 				Group Chat
 			</div>
-			<div className="bg-cultured pt-14 pb-20 h-full overflow-auto scroll-smooth rounded-xl" ref={chatBoxRef}>
+			<div className="bg-cultured h-full overflow-auto scroll-smooth" ref={chatBoxRef}>
 				{messageState.map((message, index) => {
 					return <Message key={index} msg={message.message} author={message.author} />;
 				})}
 				{messageState.length === 0 && <h1 className="text-slate-blue-500 text-center p-8">No Messages</h1>}
 			</div>
-			<div className="bg-cultured absolute bottom-0 w-full p-4 rounded-bl-lg rounded-br-lg">
+			<div className="bg-cultured w-full p-4 rounded-bl-lg rounded-br-lg">
 				<form
 					className="flex bg-white px-4 py-2 rounded-lg justify-between shadow-md"
 					onSubmit={handleSendMessage}>
