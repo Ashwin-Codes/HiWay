@@ -61,10 +61,27 @@ export const refreshToken = createAsyncThunk("auth/refreshToken", async (signal 
 	}
 });
 
+export const logout = createAsyncThunk("auth/logout", async (signal = null, { rejectWithValue }) => {
+	try {
+		const response = await axios.get(routes.logout, { withCredentials: true });
+		if (!(response?.data?.message === "logout successful")) {
+			throw new Error("logout failed");
+		}
+		return { message: "logout successful" };
+	} catch (err) {
+		return rejectWithValue({ message: err?.message });
+	}
+});
+
 const authSlice = createSlice({
 	name: "auth",
 	initialState,
-	reducers: {},
+	reducers: {
+		logout(state) {
+			state.accessToken = null;
+			state.username = null;
+		},
+	},
 	extraReducers(builder) {
 		builder
 			.addCase(signIn.fulfilled, (state, action) => {
@@ -77,6 +94,10 @@ const authSlice = createSlice({
 			.addCase(refreshToken.fulfilled, (state, action) => {
 				state.accessToken = action.payload.accessToken;
 				state.username = action.payload.username;
+			})
+			.addCase(logout.fulfilled, (state, action) => {
+				state.accessToken = null;
+				state.username = null;
 			});
 	},
 });
