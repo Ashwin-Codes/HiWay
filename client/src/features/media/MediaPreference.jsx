@@ -4,6 +4,7 @@ import UserCam from "./UserCam";
 import { AiOutlineLogin as JoinRoomIcon } from "react-icons/ai";
 import { getPermissionError, setPickedMediaPreference } from "./mediaSettingsSlice";
 import Toastify, { errorToast } from "../../components/Toastify";
+import isSafari from "../../util/isSafari";
 
 export default function MediaPreference() {
 	const permissionError = useSelector(getPermissionError);
@@ -28,7 +29,7 @@ export default function MediaPreference() {
 					<p className="text-gray-500">Joining as {authState.username ? authState.username : "guest"}</p>
 					{!authState.username && <p className="text-gray-500">Login to join with your username.</p>}
 				</div>
-				<button className="fancy-btn self-center" onClick={joinChatHandler}>
+				<button className={`fancy-btn self-center ${isSafari() && "isolate"}`} onClick={joinChatHandler}>
 					<JoinRoomIcon className="text-white text-2xl" />
 					<h1 className="text-[#829cb9] font-semibold mix-blend-plus-lighter">Join Chat</h1>
 				</button>

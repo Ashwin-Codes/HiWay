@@ -8,6 +8,7 @@ import { getAuth } from "../auth/authSlice";
 import { errorToast } from "../../components/Toastify";
 import { useNavigate } from "react-router-dom";
 import { getSocketState } from "./socketSlice";
+import isSafari from "../../util/isSafari";
 
 export default function CreateJoinRoomForm() {
 	const roomIdInputRef = useRef();
@@ -72,7 +73,10 @@ export default function CreateJoinRoomForm() {
 				className="flex flex-col gap-2 xl:gap-8">
 				<div className="flex flex-col border-2 gap-4 p-5 rounded-lg">
 					<p className="text-gray-500">Create a new video chat room</p>
-					<button className="fancy-btn self-center" onClick={createRoomHandler} type="button">
+					<button
+						className={`fancy-btn self-center ${isSafari() && "isolate"}`}
+						onClick={createRoomHandler}
+						type="button">
 						<CreateRoomIcon className="text-white text-2xl" />
 						<h1 className="text-[#829cb9] font-semibold mix-blend-plus-lighter">Create Hiway</h1>
 					</button>
@@ -96,7 +100,7 @@ export default function CreateJoinRoomForm() {
 							Joining Code
 						</label>
 					</div>
-					<button className="fancy-btn self-center" type="submit">
+					<button className={`fancy-btn self-center ${isSafari() && "isolate"}`} type="submit">
 						<JoinRoomIcon className="text-white text-2xl" />
 						<h1 className="text-[#829cb9] font-semibold mix-blend-plus-lighter">Join Hiway</h1>
 					</button>
