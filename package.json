@@ -7,7 +7,8 @@
 		"authServer": "cd servers/authServer && npm start",
 		"ioServer": "cd servers/ioServer && npm start",
 		"client": "cd client && npm run start",
-		"build": "cd client && npm run build"
+		"build": "cd client && npm run build",
+		"prestart": "cd client && npm install && cd ../servers/authServer && npm install && cd ../ioServer && npm install"
 	},
 	"author": "Ashwin Bhargava",
 	"license": "ISC",
